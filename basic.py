@@ -1,8 +1,5 @@
 import numpy as np
 
-""" All the Lie algebra we have been talking about is in the context of 
-subgroup of general linear group.
-"""
 
 
 def bracket(x: np.ndarray, y: np.ndarray) -> np.ndarray:
@@ -13,9 +10,6 @@ def E_unit(n: int, i: int, j:int) -> np.ndarray:
     zeros_mat[i, j] = 1
     return zeros_mat
 
-
-def adjoint(n, i, j):
-    pass
 
 class LieAlgebra:
     def __init__(self, basis: np.ndarray) -> None:
@@ -44,9 +38,25 @@ class LieAlgebra:
         return np.linalg.inv(gram_matrix)
     
     def _as_matrix(self, coord: np.ndarray) -> np.ndarray:
+        """Converts coord form to matrix form
+
+        Args:
+            coord (np.ndarray): coordinate with respect to basis
+
+        Returns:
+            np.ndarray: matrix in GLn
+        """
         return np.sum(coord[:, np.newaxis, np.newaxis] * self.basis, axis=0)
     
     def _as_coord(self, matrix: np.ndarray) -> np.ndarray:
+        """Converts matrix form to coord form
+
+        Args:
+            matrix (np.ndarray): matrix in GLn
+
+        Returns:
+            np.ndarray: coord with respect to basis
+        """
         assert self.basis.shape[1:] == matrix.shape, print(self.basis.shape, matrix.shape)
         basis_num = self.basis.shape[0]
         b_inner = np.zeros(basis_num)
@@ -58,6 +68,11 @@ class LieAlgebra:
     
     
     def _structure_constant(self) -> np.ndarray:
+        """Calculates structure constant for a Lie algebra
+
+        Returns:
+            np.ndarray: structure constant inthe shape (basis_num, basis_num, basis_num)
+        """
         basis_num = self.basis.shape[0]
         structure_constant = np.zeros((basis_num, basis_num, basis_num))
         
@@ -68,6 +83,14 @@ class LieAlgebra:
         return structure_constant
     
     def adjoint(self, x: np.ndarray) -> np.ndarray:
+        """Obtain adjoint representation in the matrix form
+
+        Args:
+            x (np.ndarray): matrix in GLn
+
+        Returns:
+            np.ndarray: adjoint representation of shape (basis_num, basis_num)
+        """
         basis_num = self.basis.shape[0]
         adjoint_mat = np.zeros((basis_num, basis_num))
         x_coord = self._as_coord(x)
