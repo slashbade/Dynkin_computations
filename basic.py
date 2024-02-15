@@ -1,134 +1,116 @@
 import numpy as np
 
 
-
-def bracket(x: np.ndarray, y: np.ndarray) -> np.ndarray:
-    return np.dot(x, y) - np.dot(y, x)
-
-def E_unit(n: int, i: int, j:int) -> np.ndarray:
-    zeros_mat = np.zeros((n, n))
-    zeros_mat[i, j] = 1
-    return zeros_mat
-
-
 class LieAlgebra:
-    def __init__(self, basis: np.ndarray) -> None:
-        """Use matrix basis to initialize a Lie algebra
+    def __init__(self, structure_constant: np.ndarray, basis: np.ndarray = None) -> None:
+        """Initialize Lie algebra with structure constant
 
         Args:
-            basis (np.ndarray): basis tensor, shape (M, N, N)
+            structure_constant (np.ndarray): structure constant in the shape (basis_num, basis_num, basis_num)
         """
-        self.basis = basis
-        self.gram_matrix_inv = self._gram_matrix_inv()
-        self.structure_constant = self._structure_constant()
+        self.structure_constant = structure_constant
+        self.dimension = structure_constant.shape[0]
+        self.basis = np.eye(self.dimension)
+        if basis is not None:
+            self.basis = basis
+            
     
-    def _gram_matrix_inv(self) -> np.ndarray:
-        """computes the inv of gram matrix of Lie algebra basis, for the transformation
-        between coord and matrix
+def adjoint(L: LieAlgebra, x: np.ndarray) -> np.ndarray:
+    """Obtain adjoint representation in the matrix form
 
-        Returns:
-            np.ndarray: gram matrix inv
-        """
-        basis_num = self.basis.shape[0]
-        gram_matrix = np.zeros((basis_num, basis_num))
-        for i in range(basis_num):
-            for j in range(basis_num):
-                gram_matrix[i, j] = np.sum(self.basis[i] * self.basis[j])
-        # print(gram_matrix)
-        return np.linalg.inv(gram_matrix)
+    Args:
+        x (np.ndarray): matrix in GLn
+
+    Returns:
+        np.ndarray: adjoint representation of shape (basis_num, basis_num)
+    """
+    adjoint_mat = np.zeros((L.dimension, L.dimension))
+    for i in range(L.dimension):
+        adjoint_mat[i, :] = np.dot(L.structure_constant[:, :, i].transpose(), x)
+    return adjoint_mat
+
+def bracket(L: LieAlgebra, x: np.ndarray, y: np.ndarray) -> np.ndarray:
+    """Computes the bracket of two vectors
+
+    Args:
+        x (np.ndarray): vector in L
+        y (np.ndarray): vector in L
+
+    Returns:
+        np.ndarray: bracket of x and y
+    """
+    bracket_prod = np.zeros(L.dimension)
+    for i in range(L.dimension):
+        bracket_prod[i] = L.structure_constant[:, :, i] @ y @ x
     
-    def _as_matrix(self, coord: np.ndarray) -> np.ndarray:
-        """Converts coord form to matrix form
+    return bracket_prod
 
-        Args:
-            coord (np.ndarray): coordinate with respect to basis
+def is_ad_nilpotent(L: LieAlgebra, x: np.ndarray) -> bool:
+    """Justify if a matrix is nilpotent
 
-        Returns:
-            np.ndarray: matrix in GLn
-        """
-        return np.sum(coord[:, np.newaxis, np.newaxis] * self.basis, axis=0)
+    Args:
+        x (np.ndarray): matrix in GLn
+
+    Returns:
+        bool: nilpotency of end
+    """
+    tol = 1e-8
+    adx = adjoint(L, x)
+    eigvals = np.linalg.eigvals(adx)
+    if all(np.abs(eigvals) <= tol):
+        return True
+    else:
+        return False
+
+def is_in_subspace(L: LieAlgebra, subspace_basis: np.ndarray, new_coord: np.ndarray) -> bool:
+    """Justify if a vector is in the subspace spanned by basis
+
+    Args:
+        subspace_basis (np.ndarray): basis of subspace, each line is a basis
+        new_coord (np.ndarray): new vectot
+
+    Returns:
+        bool: if vector in the subspace
+    """
+    subspace_basis = subspace_basis.transpose()
+    matrix_rank = np.linalg.matrix_rank(subspace_basis)
+    ext_matrix = np.concatenate([subspace_basis, new_coord.reshape((-1, 1))], axis=1)
+    ext_matrix_rank = np.linalg.matrix_rank(ext_matrix)
+    if matrix_rank >= ext_matrix_rank:
+        return True
+    return False
+
+def is_sub_lie_algebra(L: LieAlgebra, subspace_basis: np.ndarray) -> bool:
+    """Justify if a subspace is a sub Lie algebra
+
+    Args:
+        subspace_basis (np.ndarray): basis of subspace, each line is a basis
+
+    Returns:
+        bool: if subspace is a sub Lie algebra
+    """
+    basis_num = subspace_basis.shape[0]
+    for i in range(basis_num):
+        for j in range(i, basis_num):
+            if not L.is_in_subspace(subspace_basis, bracket(L, subspace_basis[i], subspace_basis[j])):
+                return False
+    return True
+
+def sub_lie_algebra(L: LieAlgebra, subspace_basis: np.ndarray) -> LieAlgebra:
+    """Get the sub Lie algebra of a subspace
+
+    Args:
+        subspace_basis (np.ndarray): basis of subspace, each line is a basis
+
+    Returns:
+        LieAlgebra: sub Lie algebra
+    """
+    basis_num = L.dimension
+    structure_constant = np.zeros((basis_num, basis_num, basis_num))
+    for i in range(basis_num):
+        for j in range(i, basis_num):
+            structure_constant[i, j, :] = bracket(L, subspace_basis[i], subspace_basis[j])
+    return LieAlgebra(structure_constant, subspace_basis)
     
-    def _as_coord(self, matrix: np.ndarray) -> np.ndarray:
-        """Converts matrix form to coord form
-
-        Args:
-            matrix (np.ndarray): matrix in GLn
-
-        Returns:
-            np.ndarray: coord with respect to basis
-        """
-        assert self.basis.shape[1:] == matrix.shape, print(self.basis.shape, matrix.shape)
-        basis_num = self.basis.shape[0]
-        b_inner = np.zeros(basis_num)
-        for i in range(basis_num):
-            b_inner[i] = np.sum(matrix * self.basis[i])
-        coord = np.dot(self.gram_matrix_inv, b_inner)
-        # print(self.gram_matrix_inv, b_inner)
-        return coord
-    
-    
-    def _structure_constant(self) -> np.ndarray:
-        """Calculates structure constant for a Lie algebra
-
-        Returns:
-            np.ndarray: structure constant inthe shape (basis_num, basis_num, basis_num)
-        """
-        basis_num = self.basis.shape[0]
-        structure_constant = np.zeros((basis_num, basis_num, basis_num))
-        
-        for i in range(basis_num):
-            for j in range(basis_num):
-                structure_constant[i, j, :] = self._as_coord(bracket(self.basis[i], self.basis[j]))
-        
-        return structure_constant
-    
-    def adjoint(self, x: np.ndarray) -> np.ndarray:
-        """Obtain adjoint representation in the matrix form
-
-        Args:
-            x (np.ndarray): matrix in GLn
-
-        Returns:
-            np.ndarray: adjoint representation of shape (basis_num, basis_num)
-        """
-        basis_num = self.basis.shape[0]
-        adjoint_mat = np.zeros((basis_num, basis_num))
-        x_coord = self._as_coord(x)
-        for i in range(basis_num):
-            adjoint_mat[i, :] = np.dot(self.structure_constant[:, :, i].transpose(), x_coord)
-        return adjoint_mat
-
-if __name__ == "__main__":
-    # print(E_unit(4, 1, 3))
-    basis = np.stack([E_unit(3, 0, 0) - E_unit(3, 1, 1),
-                      E_unit(3, 1, 1) - E_unit(3, 2, 2),
-                      E_unit(3, 0, 1),
-                      E_unit(3, 0, 2),
-                      E_unit(3, 1, 2),
-                      E_unit(3, 1, 0),
-                      E_unit(3, 2, 0),
-                      E_unit(3, 2, 1)])
-
-    L = LieAlgebra(basis=basis)
-    # print(L.basis.shape)
-    # matrix = L._as_matrix(np.array([1, 2, 3, 4, 5, 6, 7, 8]))
-    # coord = L._as_coord(matrix)
-    
-    x_mat = np.array([[1, 2, 3], 
-                      [4, 50, 6],
-                      [7, 8,-51]])
-    
-    y_mat = np.array([[2, 3, 4],
-                      [5, 60, 7],
-                      [8, 9,-62]])
-    
-    coord1 = L._as_coord(x_mat)
-    # print(coord1)
-    # matrix1 = L._as_matrix(coord1)
-    # print(matrix1)
-    print(f"Matrix y as coordinate: {L._as_coord(y_mat)}")
-    print(f"Bracket product of x and y {bracket(x_mat, y_mat)}")
-    print(f"Bracket product as coordinate: {L._as_coord(bracket(x_mat, y_mat))}")
-    print(f"Adjoint Representation: {L.adjoint(x_mat)}")
-    print(f"Using adjoint rep: {np.dot(L.adjoint(x_mat), L._as_coord(y_mat))}")
-    
+def Killing_form(L: LieAlgebra, x: np.ndarray, y: np.ndarray):
+    pass
