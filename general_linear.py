@@ -79,7 +79,99 @@ class GeneralLinear:
                 structure_constant[i, j, :] = self._as_coord(bracket_m(self.basis[i], self.basis[j]))
         
         return structure_constant
-    
+
+def type_A_basis(rank: int) -> np.ndarray:
+    """Generates basis for type A Lie algebra
+
+    Args:
+        rank (int): rank of the Lie algebra
+
+    Returns:
+        np.ndarray: basis for type A Lie algebra
+    """
+    basis_num = rank * rank - 1
+    basis = np.zeros((basis_num, rank, rank))
+    count = 0
+    for i in range(rank - 1):
+        basis[count] = E_unit(rank, i, i) - E_unit(rank, i + 1, i + 1)
+        count += 1
+    for i in range(rank):
+        for j in range(i + 1, rank):
+            basis[count] = E_unit(rank, i, j)
+            count += 1
+    for i in range(rank):
+        for j in range(i):
+            basis[count] = E_unit(rank, i, j)
+            count += 1
+    return basis
+
+def type_B_basis(rank: int) -> np.ndarray:
+    """Generates basis for type B Lie algebra
+
+    Args:
+        rank (int): rank of the Lie algebra
+
+    Returns:
+        np.ndarray: basis for type B Lie algebra
+    """
+    basis_num = 2 * rank * rank + rank
+    matrix_dim = rank * 2 + 1
+    basis = np.zeros((basis_num, matrix_dim, matrix_dim))
+    count = 0
+    for i in range(1, rank + 1):
+        basis[count] = E_unit(matrix_dim, i, i) - E_unit(matrix_dim, rank + i, rank + i)
+        count += 1
+    for i in range(rank):
+        basis[count] = E_unit(matrix_dim, 0, rank + i + 1) - E_unit(matrix_dim, i + 1, 0)
+        count += 1
+    for i in range(rank):
+        basis[count] = E_unit(matrix_dim, 0, i + 1) - E_unit(matrix_dim, rank + i + 1, 0)
+        count += 1
+    for i in range(rank):
+        for j in range(rank):
+            if i != j:
+                basis[count] = E_unit(matrix_dim, i + 1, j + 1) - E_unit(matrix_dim, rank + j + 1, rank + i + 1)
+                count += 1
+    for i in range(rank):
+        for j in range(i + 1, rank):
+            basis[count] = E_unit(matrix_dim, i + 1, rank + j + 1) - E_unit(matrix_dim, j + 1, rank + i + 1)
+            count += 1
+    for i in range(rank):
+        for j in range(i):
+            basis[count] = E_unit(matrix_dim, rank + i + 1, j + 1) - E_unit(matrix_dim, rank + j + 1, i + 1)
+            count += 1
+
+    return basis
+
+def type_C_basis(rank: int) -> np.ndarray:
+    """Generates basis for type C Lie algebra
+
+    Args:
+        rank (int): rank of the Lie algebra
+
+    Returns:
+        np.ndarray: basis for type C Lie algebra
+    """
+    basis_num = 2 * rank * rank + rank
+    matrix_dim = rank * 2
+    basis = np.zeros((basis_num, matrix_dim, matrix_dim))
+    count = 0
+    for i in range(rank):
+        basis[count] = E_unit(matrix_dim, i, i) - E_unit(matrix_dim, rank + i, rank + i)
+        count += 1
+    for i in range(rank):
+        for j in range(rank):
+            if i != j:
+                basis[count] = E_unit(matrix_dim, i, j) - E_unit(matrix_dim, rank + j, rank + i)
+                count += 1
+    for i in range(rank):
+        basis[count] = E_unit(matrix_dim, i, rank + i)
+        count += 1
+    for i in range(rank):
+        pass
+    pass
+
+    return basis
 
 if __name__ == "__main__":
     # print(E_unit(4, 1, 3))
@@ -120,14 +212,12 @@ if __name__ == "__main__":
     print(bracket(L, GL._as_coord(x_mat), GL._as_coord(y_mat)))
     subspace_basis = np.array(
         [[1, 0, 0, 0, 0, 0, 0, 0],
-         [0, 1, 0, 0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0, 0, 0, 0]]
+         [0, 1, 0, 0, 0, 0, 0, 0]]
     )
-    L_sub = sub_lie_algebra(L, subspace_basis)
-    print(adjoint(L_sub, np.array([1, 200, 5, 1, 0, 0, 1, 4])))
+    L_sub = SubLieAlgebra(L, subspace_basis)
+    print(L_sub.structure_constant)
+    print(adjoint(L_sub, np.array([1, 200, 0, 0, 0, 0, 0, 0])))
+    # print(Killing_form_basis_matrix(L))
+    # print(type_B_basis(3).shape)
+    
     
