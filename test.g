@@ -1,0 +1,303 @@
+T := EmptySCTable(21, 0);;
+SetEntrySCTable(T, 1, 4, [1, 4]);
+SetEntrySCTable(T, 1, 7, [-1, 7]);
+SetEntrySCTable(T, 1, 10, [1, 10]);
+SetEntrySCTable(T, 1, 11, [1, 11]);
+SetEntrySCTable(T, 1, 12, [-1, 12]);
+SetEntrySCTable(T, 1, 14, [-1, 14]);
+SetEntrySCTable(T, 1, 16, [1, 16]);
+SetEntrySCTable(T, 1, 17, [1, 17]);
+SetEntrySCTable(T, 1, 19, [-1, 19]);
+SetEntrySCTable(T, 1, 20, [-1, 20]);
+SetEntrySCTable(T, 2, 5, [1, 5]);
+SetEntrySCTable(T, 2, 8, [-1, 8]);
+SetEntrySCTable(T, 2, 10, [-1, 10]);
+SetEntrySCTable(T, 2, 12, [1, 12]);
+SetEntrySCTable(T, 2, 13, [1, 13]);
+SetEntrySCTable(T, 2, 15, [-1, 15]);
+SetEntrySCTable(T, 2, 16, [1, 16]);
+SetEntrySCTable(T, 2, 18, [1, 18]);
+SetEntrySCTable(T, 2, 19, [-1, 19]);
+SetEntrySCTable(T, 2, 21, [-1, 21]);
+SetEntrySCTable(T, 3, 6, [1, 6]);
+SetEntrySCTable(T, 3, 9, [-1, 9]);
+SetEntrySCTable(T, 3, 11, [-1, 11]);
+SetEntrySCTable(T, 3, 13, [-1, 13]);
+SetEntrySCTable(T, 3, 14, [1, 14]);
+SetEntrySCTable(T, 3, 15, [1, 15]);
+SetEntrySCTable(T, 3, 17, [1, 17]);
+SetEntrySCTable(T, 3, 18, [1, 18]);
+SetEntrySCTable(T, 3, 20, [-1, 20]);
+SetEntrySCTable(T, 3, 21, [-1, 21]);
+SetEntrySCTable(T, 4, 1, [-1, 4]);
+SetEntrySCTable(T, 4, 5, [-1, 16]);
+SetEntrySCTable(T, 4, 6, [-1, 17]);
+SetEntrySCTable(T, 4, 7, [-1, 1]);
+SetEntrySCTable(T, 4, 8, [-1, 10]);
+SetEntrySCTable(T, 4, 9, [-1, 11]);
+SetEntrySCTable(T, 4, 12, [-1, 5]);
+SetEntrySCTable(T, 4, 14, [-1, 6]);
+SetEntrySCTable(T, 4, 19, [-1, 8]);
+SetEntrySCTable(T, 4, 20, [-1, 9]);
+SetEntrySCTable(T, 5, 2, [-1, 5]);
+SetEntrySCTable(T, 5, 4, [1, 16]);
+SetEntrySCTable(T, 5, 6, [-1, 18]);
+SetEntrySCTable(T, 5, 7, [-1, 12]);
+SetEntrySCTable(T, 5, 8, [-1, 2]);
+SetEntrySCTable(T, 5, 9, [-1, 13]);
+SetEntrySCTable(T, 5, 10, [-1, 4]);
+SetEntrySCTable(T, 5, 15, [-1, 6]);
+SetEntrySCTable(T, 5, 19, [1, 7]);
+SetEntrySCTable(T, 5, 21, [-1, 9]);
+SetEntrySCTable(T, 6, 3, [-1, 6]);
+SetEntrySCTable(T, 6, 4, [1, 17]);
+SetEntrySCTable(T, 6, 5, [1, 18]);
+SetEntrySCTable(T, 6, 7, [-1, 14]);
+SetEntrySCTable(T, 6, 8, [-1, 15]);
+SetEntrySCTable(T, 6, 9, [-1, 3]);
+SetEntrySCTable(T, 6, 11, [-1, 4]);
+SetEntrySCTable(T, 6, 13, [-1, 5]);
+SetEntrySCTable(T, 6, 20, [1, 7]);
+SetEntrySCTable(T, 6, 21, [1, 8]);
+SetEntrySCTable(T, 7, 1, [1, 7]);
+SetEntrySCTable(T, 7, 4, [1, 1]);
+SetEntrySCTable(T, 7, 5, [1, 12]);
+SetEntrySCTable(T, 7, 6, [1, 14]);
+SetEntrySCTable(T, 7, 8, [1, 19]);
+SetEntrySCTable(T, 7, 9, [1, 20]);
+SetEntrySCTable(T, 7, 10, [1, 8]);
+SetEntrySCTable(T, 7, 11, [1, 9]);
+SetEntrySCTable(T, 7, 16, [1, 5]);
+SetEntrySCTable(T, 7, 17, [1, 6]);
+SetEntrySCTable(T, 8, 2, [1, 8]);
+SetEntrySCTable(T, 8, 4, [1, 10]);
+SetEntrySCTable(T, 8, 5, [1, 2]);
+SetEntrySCTable(T, 8, 6, [1, 15]);
+SetEntrySCTable(T, 8, 7, [-1, 19]);
+SetEntrySCTable(T, 8, 9, [1, 21]);
+SetEntrySCTable(T, 8, 12, [1, 7]);
+SetEntrySCTable(T, 8, 13, [1, 9]);
+SetEntrySCTable(T, 8, 16, [-1, 4]);
+SetEntrySCTable(T, 8, 18, [1, 6]);
+SetEntrySCTable(T, 9, 3, [1, 9]);
+SetEntrySCTable(T, 9, 4, [1, 11]);
+SetEntrySCTable(T, 9, 5, [1, 13]);
+SetEntrySCTable(T, 9, 6, [1, 3]);
+SetEntrySCTable(T, 9, 7, [-1, 20]);
+SetEntrySCTable(T, 9, 8, [-1, 21]);
+SetEntrySCTable(T, 9, 14, [1, 7]);
+SetEntrySCTable(T, 9, 15, [1, 8]);
+SetEntrySCTable(T, 9, 17, [-1, 4]);
+SetEntrySCTable(T, 9, 18, [-1, 5]);
+SetEntrySCTable(T, 10, 1, [-1, 10]);
+SetEntrySCTable(T, 10, 2, [1, 10]);
+SetEntrySCTable(T, 10, 5, [1, 4]);
+SetEntrySCTable(T, 10, 7, [-1, 8]);
+SetEntrySCTable(T, 10, 12, [1, 1, -1, 2]);
+SetEntrySCTable(T, 10, 13, [1, 11]);
+SetEntrySCTable(T, 10, 14, [-1, 15]);
+SetEntrySCTable(T, 10, 18, [1, 17]);
+SetEntrySCTable(T, 10, 20, [-1, 21]);
+SetEntrySCTable(T, 11, 1, [-1, 11]);
+SetEntrySCTable(T, 11, 3, [1, 11]);
+SetEntrySCTable(T, 11, 6, [1, 4]);
+SetEntrySCTable(T, 11, 7, [-1, 9]);
+SetEntrySCTable(T, 11, 12, [-1, 13]);
+SetEntrySCTable(T, 11, 14, [1, 1, -1, 3]);
+SetEntrySCTable(T, 11, 15, [1, 10]);
+SetEntrySCTable(T, 11, 18, [-1, 16]);
+SetEntrySCTable(T, 11, 19, [1, 21]);
+SetEntrySCTable(T, 12, 1, [1, 12]);
+SetEntrySCTable(T, 12, 2, [-1, 12]);
+SetEntrySCTable(T, 12, 4, [1, 5]);
+SetEntrySCTable(T, 12, 8, [-1, 7]);
+SetEntrySCTable(T, 12, 10, [-1, 1, 1, 2]);
+SetEntrySCTable(T, 12, 11, [1, 13]);
+SetEntrySCTable(T, 12, 15, [-1, 14]);
+SetEntrySCTable(T, 12, 17, [1, 18]);
+SetEntrySCTable(T, 12, 21, [-1, 20]);
+SetEntrySCTable(T, 13, 2, [-1, 13]);
+SetEntrySCTable(T, 13, 3, [1, 13]);
+SetEntrySCTable(T, 13, 6, [1, 5]);
+SetEntrySCTable(T, 13, 8, [-1, 9]);
+SetEntrySCTable(T, 13, 10, [-1, 11]);
+SetEntrySCTable(T, 13, 14, [1, 12]);
+SetEntrySCTable(T, 13, 15, [1, 2, -1, 3]);
+SetEntrySCTable(T, 13, 17, [1, 16]);
+SetEntrySCTable(T, 13, 19, [-1, 20]);
+SetEntrySCTable(T, 14, 1, [1, 14]);
+SetEntrySCTable(T, 14, 3, [-1, 14]);
+SetEntrySCTable(T, 14, 4, [1, 6]);
+SetEntrySCTable(T, 14, 9, [-1, 7]);
+SetEntrySCTable(T, 14, 10, [1, 15]);
+SetEntrySCTable(T, 14, 11, [-1, 1, 1, 3]);
+SetEntrySCTable(T, 14, 13, [-1, 12]);
+SetEntrySCTable(T, 14, 16, [-1, 18]);
+SetEntrySCTable(T, 14, 21, [1, 19]);
+SetEntrySCTable(T, 15, 2, [1, 15]);
+SetEntrySCTable(T, 15, 3, [-1, 15]);
+SetEntrySCTable(T, 15, 5, [1, 6]);
+SetEntrySCTable(T, 15, 9, [-1, 8]);
+SetEntrySCTable(T, 15, 11, [-1, 10]);
+SetEntrySCTable(T, 15, 12, [1, 14]);
+SetEntrySCTable(T, 15, 13, [-1, 2, 1, 3]);
+SetEntrySCTable(T, 15, 16, [1, 17]);
+SetEntrySCTable(T, 15, 20, [-1, 19]);
+SetEntrySCTable(T, 16, 1, [-1, 16]);
+SetEntrySCTable(T, 16, 2, [-1, 16]);
+SetEntrySCTable(T, 16, 7, [-1, 5]);
+SetEntrySCTable(T, 16, 8, [1, 4]);
+SetEntrySCTable(T, 16, 14, [1, 18]);
+SetEntrySCTable(T, 16, 15, [-1, 17]);
+SetEntrySCTable(T, 16, 19, [1, 1, 1, 2]);
+SetEntrySCTable(T, 16, 20, [1, 13]);
+SetEntrySCTable(T, 16, 21, [-1, 11]);
+SetEntrySCTable(T, 17, 1, [-1, 17]);
+SetEntrySCTable(T, 17, 3, [-1, 17]);
+SetEntrySCTable(T, 17, 7, [-1, 6]);
+SetEntrySCTable(T, 17, 9, [1, 4]);
+SetEntrySCTable(T, 17, 12, [-1, 18]);
+SetEntrySCTable(T, 17, 13, [-1, 16]);
+SetEntrySCTable(T, 17, 19, [1, 15]);
+SetEntrySCTable(T, 17, 20, [1, 1, 1, 3]);
+SetEntrySCTable(T, 17, 21, [1, 10]);
+SetEntrySCTable(T, 18, 2, [-1, 18]);
+SetEntrySCTable(T, 18, 3, [-1, 18]);
+SetEntrySCTable(T, 18, 8, [-1, 6]);
+SetEntrySCTable(T, 18, 9, [1, 5]);
+SetEntrySCTable(T, 18, 10, [-1, 17]);
+SetEntrySCTable(T, 18, 11, [1, 16]);
+SetEntrySCTable(T, 18, 19, [-1, 14]);
+SetEntrySCTable(T, 18, 20, [1, 12]);
+SetEntrySCTable(T, 18, 21, [1, 2, 1, 3]);
+SetEntrySCTable(T, 19, 1, [1, 19]);
+SetEntrySCTable(T, 19, 2, [1, 19]);
+SetEntrySCTable(T, 19, 4, [1, 8]);
+SetEntrySCTable(T, 19, 5, [-1, 7]);
+SetEntrySCTable(T, 19, 11, [-1, 21]);
+SetEntrySCTable(T, 19, 13, [1, 20]);
+SetEntrySCTable(T, 19, 16, [-1, 1, -1, 2]);
+SetEntrySCTable(T, 19, 17, [-1, 15]);
+SetEntrySCTable(T, 19, 18, [1, 14]);
+SetEntrySCTable(T, 20, 1, [1, 20]);
+SetEntrySCTable(T, 20, 3, [1, 20]);
+SetEntrySCTable(T, 20, 4, [1, 9]);
+SetEntrySCTable(T, 20, 6, [-1, 7]);
+SetEntrySCTable(T, 20, 10, [1, 21]);
+SetEntrySCTable(T, 20, 15, [1, 19]);
+SetEntrySCTable(T, 20, 16, [-1, 13]);
+SetEntrySCTable(T, 20, 17, [-1, 1, -1, 3]);
+SetEntrySCTable(T, 20, 18, [-1, 12]);
+SetEntrySCTable(T, 21, 2, [1, 21]);
+SetEntrySCTable(T, 21, 3, [1, 21]);
+SetEntrySCTable(T, 21, 5, [1, 9]);
+SetEntrySCTable(T, 21, 6, [-1, 8]);
+SetEntrySCTable(T, 21, 12, [1, 20]);
+SetEntrySCTable(T, 21, 14, [-1, 19]);
+SetEntrySCTable(T, 21, 16, [1, 11]);
+SetEntrySCTable(T, 21, 17, [-1, 10]);
+SetEntrySCTable(T, 21, 18, [-1, 2, -1, 3]);
+
+L := LieAlgebraByStructureConstants(Rationals, T);
+CSA := CartanSubalgebra(L);
+b := NonNilpotentElement(L);
+Display(CSA);
+
+GeneralizedNullSpace := function(L, a)
+    local A, bas;
+    A := TransposedMat(AdjointMatrix(Basis(L), a));
+    Display("transposed adjoint matrix: ");
+    Display(a);
+    Display(A);
+    A := A ^ Dimension(L);
+    bas := NullspaceMat(A);
+    bas := List(bas, x -> LinearCombination(Basis(L), x));
+    return bas;
+end;
+
+NonNilpotentElement1 := function(L)
+    n := Dimension(L);
+    bvecs := BasisVectors(Basis(L));
+    for i in [1 .. n] do
+        Display("testadn:");
+        Display(bvecs[i]);
+        Display(AdjointMatrix(Basis(L), bvecs[i]));
+        Display("endtestadn");
+        if not IsNilpotentElement(L, bvecs[i]) then
+            return bvecs[i];
+        fi;
+    od;
+
+    for i in [1 .. n] do
+        for j in [i + 1 .. n] do
+            if not IsNilpotentElement(L, bvecs[i] + bvecs[j]) then
+                return bvecs[i] + bvecs[j];
+            fi;
+        od;
+    od;
+
+    return fail;
+end;
+
+CartanSubalgebra1 := function(L)
+    local n, k, a, A, bas, K, b, ready, sp, found, c, newelt, i;
+
+    n := Dimension(L);
+    a := NonNilpotentElement(L);
+    if a = fail then
+        return L;
+    fi;
+    bas := GeneralizedNullSpace(L, a);
+    Display("basis: ");
+    Display(bas);
+    K := SubalgebraNC(L, bas, "basis");
+
+    b := NonNilpotentElement1(K);
+    Display(b);
+
+    ready := (b = fail);
+
+    while not ready do
+        sp := VectorSpace(Rationals, BasisVectors(Basis(K)), "basis");
+        found := false;
+        c := 0;
+        k := Dimension(K);
+        while not found do
+            c := c + 1;
+            newelt := a + c * (b - a);
+            Display("newelt: ");
+            Display(newelt);
+            Display(a);
+            Display(b);
+            bas := GeneralizedNullSpace(K, newelt);
+            # Display("basis: ");
+            # Display(bas);
+            K := SubalgebraNC(L, bas, "basis");
+
+            found := Length(bas) < k;
+            i := 1;
+            while i <= Length(bas) and found do
+                if not bas[i] in sp then
+                    found := false;
+                    Display("sss");
+                fi;
+                i := i + 1;
+            od;
+            Display(c);
+            Display("basis: ");
+            Display(bas);
+            Display(found);
+            Display(Basis(sp));
+        od;
+        
+        a := newelt;
+        
+        b := NonNilpotentElement(K);
+        ready := (b = fail);
+    od;
+
+    return K;
+
+end;
+
+Display(CartanSubalgebra1(L));
