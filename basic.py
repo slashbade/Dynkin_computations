@@ -14,7 +14,7 @@ class LieAlgebra:
         if basis is not None:
             self.basis = basis
 
-class SubLieAlgebra(LieAlgebra):
+class LieSubalgebra(LieAlgebra):
     def __init__(self, L: LieAlgebra, subspace_basis: np.ndarray) -> None:
         """Initialize Lie algebra with structure constant
 
@@ -29,18 +29,6 @@ class SubLieAlgebra(LieAlgebra):
         self.dimension = subspace_basis.shape[0]
         self.basis = subspace_basis
 
-def presentation(L: LieAlgebra, x: np.ndarray) -> np.ndarray:
-    """Change of basis
-
-    Args:
-        B (np.ndarray): new basis
-        x (np.ndarray): vector in the old basis
-
-    Returns:
-        np.ndarray: vector in the new basis
-    """
-    assert L.basis.shape[1] == x.shape[0]
-    return L.basis @ x 
 
 def adjoint(L: LieAlgebra, x: np.ndarray) -> np.ndarray:
     """Obtain adjoint representation in the matrix form
@@ -54,7 +42,7 @@ def adjoint(L: LieAlgebra, x: np.ndarray) -> np.ndarray:
     
     adjoint_mat = np.zeros((L.dimension, L.dimension))
     for i in range(L.dimension):
-        adjoint_mat[i, :] = np.dot(np.transpose(L.structure_constant[:, :, i]), presentation(L, x))
+        adjoint_mat[i, :] = np.transpose(L.structure_constant[:, :, i]) @ (L.basis @ x)
     return adjoint_mat
 
 def bracket(L: LieAlgebra, x: np.ndarray, y: np.ndarray) -> np.ndarray:
@@ -86,12 +74,9 @@ def is_ad_nilpotent(L: LieAlgebra, x: np.ndarray) -> bool:
     adx = adjoint(L, x)
     # print("testadx", adx.shape)
     eigvals = np.linalg.eigvals(adx)
-    if all(np.abs(eigvals) <= tol):
-        return True
-    else:
-        return False
+    return all(np.abs(eigvals) <= tol)
 
-def is_in_subspace(L: LieAlgebra, subspace_basis: np.ndarray, new_coord: np.ndarray) -> bool:
+def is_in_subspace(L: LieAlgebra, new_coord: np.ndarray) -> bool:
     """Justify if a vector is in the subspace spanned by basis
 
     Args:
@@ -101,7 +86,7 @@ def is_in_subspace(L: LieAlgebra, subspace_basis: np.ndarray, new_coord: np.ndar
     Returns:
         bool: if vector in the subspace
     """
-    subspace_basis = subspace_basis.transpose()
+    subspace_basis = L.basis.transpose()
     matrix_rank = np.linalg.matrix_rank(subspace_basis)
     ext_matrix = np.concatenate([subspace_basis, new_coord.reshape((-1, 1))], axis=1)
     ext_matrix_rank = np.linalg.matrix_rank(ext_matrix)
@@ -139,4 +124,5 @@ def Killing_form_basis_matrix(L: LieAlgebra) -> np.ndarray:
 def is_semisimple(L: LieAlgebra) -> bool:
     kf_m = Killing_form_basis_matrix(L)
     return np.linalg.matrix_rank(kf_m) == L.dimension
+
     

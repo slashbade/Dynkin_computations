@@ -6,7 +6,7 @@ import scipy as sp
 def generalized_null_space(L: LieAlgebra, a: np.ndarray) -> np.ndarray:
     A = adjoint(L, a)
     A_power = np.linalg.matrix_power(A, L.dimension)
-    subspace_basis = sp.linalg.null_space(A_power).transpose()
+    subspace_basis = sp.linalg.null_space(A_power).transpose() @ L.basis
     return subspace_basis
 
 def non_nilpotent_element(L: LieAlgebra) -> np.ndarray:
@@ -44,48 +44,29 @@ def cartan_subalgebra(L: LieAlgebra):
     
     if a is None:
         return L
-    # print(L.basis, a)
-    ada = adjoint(L, a)
-    # print("sss", ada)
-    ada = np.linalg.matrix_power(ada, L.dimension)
-    null_subspace_ada = sp.linalg.null_space(ada).transpose()
-    subspace_basis = null_subspace_ada 
-    # print("p", subspace_basis.shape)
-    K = SubLieAlgebra(L, subspace_basis)
+    subspace_basis = generalized_null_space(L, a)
+    K = LieSubalgebra(L, subspace_basis)
     b = non_nilpotent_element(K)
-    # print(b)
     
     ready = (b is None)
-    # print(ready)
     while not ready:
         found = False
         c = 0
+        k = K.dimension
         while not found:
             c += 1
             
             new_elment = a + c * (b - a)
-            ad_new = adjoint(K, new_elment)
-            # print(new_elment, ad_new)
-            ad_new = np.linalg.matrix_power(ad_new.transpose(), K.dimension)
+            null_subspace_ad_new = generalized_null_space(K, new_elment)
             
-            null_subspace_ad_new = sp.linalg.null_space(ad_new).transpose()
-            # print(null_subspace_ad_new.shape, K.basis.shape)
-            null_subspace_ad_new = null_subspace_ad_new @ K.basis
-            
-            found = null_subspace_ad_new.shape[0] < subspace_basis.shape[0]
+            found = null_subspace_ad_new.shape[0] < k
             for i in range(null_subspace_ad_new.shape[0]):
-                if found:
-                    if not is_in_subspace(K, subspace_basis, null_subspace_ad_new[i, :]):
-                        found = False
-                        # print("sss")
-            # print(c, subspace_basis.shape, null_subspace_ad_new.shape, found)
+                if found and not is_in_subspace(K, null_subspace_ad_new[i]):
+                    found = False
         a = new_elment
-        # print("p", null_subspace_ad_new.shape)
-        subspace_basis = null_subspace_ad_new
-        print(subspace_basis)
-        K = SubLieAlgebra(L, subspace_basis)
+        # subspace_basis = null_subspace_ad_new
+        K = LieSubalgebra(L, null_subspace_ad_new)
         b = non_nilpotent_element(K)
-        # print(K.basis)
         ready = (b is None)
     return K
 
@@ -124,7 +105,7 @@ if __name__ == "__main__":
                         E_unit(3, 1, 0),
                         E_unit(3, 2, 0),
                         E_unit(3, 2, 1)])
-    basis_so3 = type_B_basis(3)
+    basis_so3 = type_B_basis(2)
     GL = GeneralLinear(basis=basis_so3)
     L = LieAlgebra(structure_constant=GL._structure_constant())
     x_mat = np.array([[1, 2, 3], 
@@ -140,42 +121,8 @@ if __name__ == "__main__":
                     [0, 0, 0]])
     basis_num = GL.basis.shape[0]
     matrix_num = GL.basis.shape[1]
-    print(L.structure_constant)
-    str = ""
-    for i in range(L.structure_constant.shape[0]):
-        for j in range(L.structure_constant.shape[1]):
-            line = f"SetEntrySCTable(T, {i+1}, {j+1}, ["
-            linek = ""
-            for k in range(L.structure_constant.shape[2]):
-                if L.structure_constant[i, j, k] != 0:
-                    linek += f"{int(L.structure_constant[i, j, k])}, {k+1}, "
-            if linek != "":
-                line += linek[:-2]
-                line += "]);"
-                str += line + "\n"
-    print(GAP_command_for_creation(L.structure_constant))
-    # print(np.linalg.matrix_rank(B))
-    # print(is_nilpotent_end(adx))
-    
-    # subspace_basis = np.array(
-    #     [[1, 0, 0, 0, 0, 0, 0, 0],
-    #      [0, 1, 0, 0, 0, 0, 0, 0],
-    #      [0, 0, 0, 0, 0, 0, 0, 0],
-    #      [0, 0, 0, 0, 0, 0, 0, 0],
-    #      [0, 0, 0, 0, 0, 0, 0, 0],
-    #      [0, 0, 0, 0, 0, 0, 0, 0],
-    #      [0, 0, 0, 0, 0, 0, 0, 0],
-    #      [0, 0, 0, 0, 0, 0, 0, 0]]
-    # )
-    # b = non_nilpotent_element(L)
-    # # print(GL._as_matrix(np.array([0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])))
-    # print(b)
-    # print(is_sub_Lie_algebra(L, L.basis))
+
     CSA = cartan_subalgebra(L)
     print(CSA.basis)
-    # # new_coord = np.array([0, 100, 0, 0, 0, 0, 0, 0])
-    # # new_b = find_bracket_closed_b(GL, subspace_basis, 2)
-    # # # print(bracket(L._as_matrix(subspace_basis[1, :]), L._as_matrix(new_b)))
-    # # print(find_cartan_subalgebra(GL))
-    # # print(is_in_subspace(subspace_basis=subspace_basis, new_coord=new_coord))
+
     

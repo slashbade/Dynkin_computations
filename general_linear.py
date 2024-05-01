@@ -214,7 +214,7 @@ if __name__ == "__main__":
         [[1, 0, 0, 0, 0, 0, 0, 0],
          [0, 1, 0, 0, 0, 0, 0, 0]]
     )
-    L_sub = SubLieAlgebra(L, subspace_basis)
+    L_sub = LieSubalgebra(L, subspace_basis)
     print(L_sub.structure_constant)
     print(adjoint(L_sub, np.array([1, 200, 0, 0, 0, 0, 0, 0])))
     # print(Killing_form_basis_matrix(L))
