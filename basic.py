@@ -114,15 +114,22 @@ def is_sub_Lie_algebra(L: LieAlgebra, subspace_basis: np.ndarray) -> bool:
 def Killing_form(L: LieAlgebra, x: np.ndarray, y: np.ndarray) -> np.float32:
     return np.trace(adjoint(L, x) @ adjoint(L, y))
 
-def Killing_form_basis_matrix(L: LieAlgebra) -> np.ndarray:
+def Killing_form_matrix(L: LieAlgebra) -> np.ndarray:
     kf_m = np.zeros((L.dimension, L.dimension))
     for i in range(L.dimension):
         for j in range(L.dimension):
             kf_m[i, j] = Killing_form(L, L.basis[i], L.basis[j])
     return kf_m
 
+def Killing_form_restriction_matrix(L: LieAlgebra, H: LieSubalgebra):
+    kf_m = np.zeros((H.dimension, H.dimension))
+    for i in range(H.dimension):
+        for j in range(H.dimension):
+            kf_m[i, j] = Killing_form(L, H.basis[i], H.basis[j])
+    return kf_m
+
 def is_semisimple(L: LieAlgebra) -> bool:
-    kf_m = Killing_form_basis_matrix(L)
+    kf_m = Killing_form_matrix(L)
     return np.linalg.matrix_rank(kf_m) == L.dimension
 
-    
+ 

@@ -105,7 +105,7 @@ if __name__ == "__main__":
                         E_unit(3, 1, 0),
                         E_unit(3, 2, 0),
                         E_unit(3, 2, 1)])
-    basis_so3 = type_B_basis(2)
+    basis_so3 = type_A_basis(4)
     GL = GeneralLinear(basis=basis_so3)
     L = LieAlgebra(structure_constant=GL._structure_constant())
     x_mat = np.array([[1, 2, 3], 
@@ -124,5 +124,7 @@ if __name__ == "__main__":
 
     CSA = cartan_subalgebra(L)
     print(CSA.basis)
+    km = Killing_form_restriction_matrix(L, CSA)
+    print(km)
 
     
