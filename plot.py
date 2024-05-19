@@ -8,8 +8,9 @@ def get_graph(cartan_matrix):
         G.add_node(i)
     for i in range(cartan_matrix.shape[0]):
         for j in range(i + 1, cartan_matrix.shape[0]):
-            edge_num = int(cartan_matrix[i, j] * cartan_matrix[j, i])
-            for _ in range(edge_num):
+            edge_num = np.round(cartan_matrix[i, j] * cartan_matrix[j, i])
+            print(f"{edge_num} edges between {i} and {j}")
+            for _ in range(int(edge_num)):
                 
                 G.add_edge(i, j)
     return G

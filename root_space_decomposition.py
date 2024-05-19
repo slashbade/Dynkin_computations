@@ -3,7 +3,7 @@ from general_linear import *
 from cartan_subalgebra import *
 import numpy as np
 
-def root_space_decomposition(L: LieAlgebra, H: LieSubalgebra):
+def root_space_decomposition(L: LieAlgebra, H: LieSubalgebra) -> np.ndarray:
     """Decompose Lie algebra into root space
 
     Args:
@@ -11,7 +11,7 @@ def root_space_decomposition(L: LieAlgebra, H: LieSubalgebra):
         H (LieSubalgebra): Cartan subalgebra
 
     Returns:
-        dict: root space decomposition
+        np.ndarray: root space decomposition
     """
     roots = np.zeros((L.dimension, H.dimension))
     for i in range(H.dimension):
@@ -19,10 +19,10 @@ def root_space_decomposition(L: LieAlgebra, H: LieSubalgebra):
     return roots
 
 def regular_vector(roots):
-    """Find regular vector in root space
+    """Find regular vector in root space, using randomness
 
     Args:
-        roots (dict): root space decomposition
+        roots (np.ndarray): root space decomposition
 
     Returns:
         np.ndarray: regular vector
@@ -45,7 +45,15 @@ def positive_roots_from_regular(roots, gamma):
     return roots[np.dot(roots, gamma) > 0, :]
 
 
-def base(roots):
+def base(roots: np.ndarray):
+    """Compute simple roots
+
+    Args:
+        roots (np.ndarray): root system
+
+    Returns:
+        np.ndarray: simple roots
+    """
     gamma = regular_vector(roots)
     roots_pr = positive_roots_from_regular(roots, gamma)
     num_roots, dim = roots_pr.shape
@@ -63,17 +71,32 @@ def base(roots):
 
     return simple_roots
 
-def inner_product(L: LieAlgebra, H: LieSubalgebra, alpha, beta):
+def inner_product(L: LieAlgebra, H: LieSubalgebra, alpha: np.ndarray, beta: np.ndarray):
+    """Using the nondegenerency to compute inner product (.,.)
+
+    Args:
+        L (LieAlgebra): Lie algebra
+        H (LieSubalgebra): Cartan Subalgebra
+        alpha (np.ndarray): root in H dual
+        beta (np.ndarray): root in H dual
+    """
     K = Killing_form_restriction_matrix(L, H)
     t_alpha = np.linalg.solve(K, alpha)
     t_beta = np.linalg.solve(K, beta)
     prod = Killing_form(L, t_alpha @ H.basis, t_beta @ H.basis)
     return prod
 
-def pairing(L, H, r1, r2):
-    return 2 * inner_product(L, H, r1, r2) / inner_product(L, H, r2, r2)
+def pairing(L: LieAlgebra, H: LieSubalgebra, alpha, beta):
+    """Pairing between roots <.,.>
+    """
+    return 2 * inner_product(L, H, alpha, beta) / inner_product(L, H, beta, beta)
 
-def sort_simple_roots(matrix, sorted = []):
+def sort_simple_roots(matrix: np.ndarray, sorted = []):
+    """a simple roots sorting method to make cartan matrix looks standard
+
+    Args:
+        matrix (np.ndarray): Cartan matrix
+    """
     negative_counts = np.sum(matrix < 0, axis=1)
     row_index = np.where(negative_counts == 1)[0]
     if row_index.shape[0] == 0:
@@ -87,7 +110,9 @@ def sort_simple_roots(matrix, sorted = []):
         return sort_simple_roots(matrix, sorted)
 
 
-def cartan_matrix_from_base(L, H, base):
+def cartan_matrix_from_base(L: LieAlgebra, H: LieSubalgebra, base):
+    """Using base and pairing to obtain Cartan matrix
+    """
     rank = base.shape[0]
     cartan_matrix = np.zeros((rank, rank))
     for i in range(rank):
@@ -101,22 +126,22 @@ if __name__ == "__main__":
     GL = GeneralLinear(basis=basis_so3)
     L = LieAlgebra(structure_constant=GL._structure_constant())
     H = cartan_subalgebra(L)
-    print(H.basis)
-    # print(adjoint(L, L.basis[1]))
-    # for i in range(H.dimension):
-    #     print(np.linalg.eigvals(adjoint(L, H.basis[i])))
+    # print(H.basis)
+    # # print(adjoint(L, L.basis[1]))
+    # # for i in range(H.dimension):
+    # #     print(np.linalg.eigvals(adjoint(L, H.basis[i])))
     roots = root_space_decomposition(L, H)
-    print(roots)
-    gamma = regular_vector(roots)
-    # print(gamma)
-    prr = positive_roots_from_regular(roots, gamma)
-    # print(prr)
+    # print(roots)
+    # gamma = regular_vector(roots)
+    # # print(gamma)
+    # prr = positive_roots_from_regular(roots, gamma)
+    # # print(prr)
     base11 = base(roots)
     
-    # print(base11)
-    cartan_matrix = cartan_matrix_from_base(L, H, base11)
-    print(f"Cartan matrix for Type B: \n {cartan_matrix}")
-    sorted_roots = sort_simple_roots(cartan_matrix)
-    print(f"Sorted simple roots: \n {sorted_roots}")
-    print(np.round(cartan_matrix_from_base(L, H, base11[sorted_roots])))
+    print(base11)
+    # cartan_matrix = cartan_matrix_from_base(L, H, base11)
+    # print(f"Cartan matrix for Type B: \n {cartan_matrix}")
+    # sorted_roots = sort_simple_roots(cartan_matrix)
+    # print(f"Sorted simple roots: \n {sorted_roots}")
+    # print(np.round(cartan_matrix_from_base(L, H, base11[sorted_roots])))
     

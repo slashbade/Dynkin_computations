@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This is an auxilliary lib for my final year project, which aims to create a working high performance tensor-based implementation of Lie structure theory. The goal of the whole project is to design an learning algorithm based on structure theory of Lie algebra.
+This is an auxiliary library for my final year project, aiming to create a tensor-based implementation of structure theory Lie algebra. Main goal of this project is to realize the Dynkin classification 
 
 ## Basic
 

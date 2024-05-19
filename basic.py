@@ -112,6 +112,8 @@ def is_sub_Lie_algebra(L: LieAlgebra, subspace_basis: np.ndarray) -> bool:
 
     
 def Killing_form(L: LieAlgebra, x: np.ndarray, y: np.ndarray) -> np.float32:
+    """Compute Killing form
+    """
     return np.trace(adjoint(L, x) @ adjoint(L, y))
 
 def Killing_form_matrix(L: LieAlgebra) -> np.ndarray:
