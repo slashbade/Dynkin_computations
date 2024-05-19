@@ -1,6 +1,4 @@
 import numpy as np
-
-
 class LieAlgebra:
     def __init__(self, structure_constant: np.ndarray, basis: np.ndarray = None) -> None:
         """Initialize Lie algebra with structure constant
@@ -16,7 +14,9 @@ class LieAlgebra:
 
 class LieSubalgebra(LieAlgebra):
     def __init__(self, L: LieAlgebra, subspace_basis: np.ndarray) -> None:
-        """Initialize Lie algebra with structure constant
+        """a Lie Subalgebra of a Lie algebra is a subspace with inhereted bracket operation. This subalgebra is
+        presented by a subspace basis. One can always represent the element in the subalgebra by the coordinates
+        in terms of subspace basis, and then use matrix multiplication to recover repn in original Lie algebra.
 
         Args:
             L (LieAlgebra): Lie algebra
@@ -117,13 +117,23 @@ def Killing_form(L: LieAlgebra, x: np.ndarray, y: np.ndarray) -> np.float32:
     return np.trace(adjoint(L, x) @ adjoint(L, y))
 
 def Killing_form_matrix(L: LieAlgebra) -> np.ndarray:
+    """The Killing form of a finite dimensional Lie algebra can be written as a PSD matrix
+
+    Args:
+        L (LieAlgebra): Lie algebra
+
+    Returns:
+        np.ndarray: N * N matrix
+    """
     kf_m = np.zeros((L.dimension, L.dimension))
     for i in range(L.dimension):
         for j in range(L.dimension):
             kf_m[i, j] = Killing_form(L, L.basis[i], L.basis[j])
     return kf_m
 
-def Killing_form_restriction_matrix(L: LieAlgebra, H: LieSubalgebra):
+def Killing_form_restriction_matrix(L: LieAlgebra, H: LieSubalgebra) -> np.ndarray:
+    """Killing form when restricted to a Lie subalgebra
+    """
     kf_m = np.zeros((H.dimension, H.dimension))
     for i in range(H.dimension):
         for j in range(H.dimension):
@@ -131,6 +141,11 @@ def Killing_form_restriction_matrix(L: LieAlgebra, H: LieSubalgebra):
     return kf_m
 
 def is_semisimple(L: LieAlgebra) -> bool:
+    """a Lie algebra is semisimple if and only if its Killing form is nondegenerated.
+
+    Args:
+        L (LieAlgebra): Lie algebra
+    """
     kf_m = Killing_form_matrix(L)
     return np.linalg.matrix_rank(kf_m) == L.dimension
 

@@ -81,6 +81,7 @@ def inner_product(L: LieAlgebra, H: LieSubalgebra, alpha: np.ndarray, beta: np.n
         beta (np.ndarray): root in H dual
     """
     K = Killing_form_restriction_matrix(L, H)
+    # Find dual vector with respect to restricted Killing form
     t_alpha = np.linalg.solve(K, alpha)
     t_beta = np.linalg.solve(K, beta)
     prod = Killing_form(L, t_alpha @ H.basis, t_beta @ H.basis)
@@ -92,7 +93,7 @@ def pairing(L: LieAlgebra, H: LieSubalgebra, alpha, beta):
     return 2 * inner_product(L, H, alpha, beta) / inner_product(L, H, beta, beta)
 
 def sort_simple_roots(matrix: np.ndarray, sorted = []):
-    """a simple roots sorting method to make cartan matrix looks standard
+    """a simple root sorting method to make cartan matrix look standard
 
     Args:
         matrix (np.ndarray): Cartan matrix
