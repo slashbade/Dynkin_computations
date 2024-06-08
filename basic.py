@@ -8,9 +8,10 @@ class LieAlgebra:
         """
         self.structure_constant = structure_constant
         self.dimension = structure_constant.shape[0]
-        self.basis = np.eye(self.dimension)
         if basis is not None:
             self.basis = basis
+        else:
+            self.basis = np.eye(self.dimension)
 
 class LieSubalgebra(LieAlgebra):
     def __init__(self, L: LieAlgebra, subspace_basis: np.ndarray) -> None:
