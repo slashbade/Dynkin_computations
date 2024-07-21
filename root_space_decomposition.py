@@ -123,7 +123,7 @@ def cartan_matrix_from_base(L: LieAlgebra, H: LieSubalgebra, base):
 
 
 if __name__ == "__main__":
-    basis_so3 = type_D_basis(5)
+    basis_so3 = type_B_basis(5)
     GL = GeneralLinear(basis=basis_so3)
     L = LieAlgebra(structure_constant=GL._structure_constant())
     H = cartan_subalgebra(L)

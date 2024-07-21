@@ -239,6 +239,16 @@ def type_D_basis(rank: int) -> NDArray[np.float16]:
             count += 1
     return basis
 
+def type_gl_basis(rank: int) -> NDArray[np.float16]:
+    basis_num = rank * rank
+    matrix_dim = rank
+    basis = np.zeros((basis_num, matrix_dim, matrix_dim))
+    count = 0
+    for i in range(rank):
+        for j in range(rank):
+            basis[count] = E_unit(matrix_dim, i, j)
+            count += 1
+    return basis
 
 if __name__ == "__main__":
     # print(E_unit(4, 1, 3))
