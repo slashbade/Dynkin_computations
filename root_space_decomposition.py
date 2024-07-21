@@ -123,7 +123,7 @@ def cartan_matrix_from_base(L: LieAlgebra, H: LieSubalgebra, base):
 
 
 if __name__ == "__main__":
-    basis_so3 = type_C_basis(4)
+    basis_so3 = type_D_basis(5)
     GL = GeneralLinear(basis=basis_so3)
     L = LieAlgebra(structure_constant=GL._structure_constant())
     H = cartan_subalgebra(L)
@@ -140,9 +140,9 @@ if __name__ == "__main__":
     base11 = base(roots)
     
     print(base11)
-    # cartan_matrix = cartan_matrix_from_base(L, H, base11)
-    # print(f"Cartan matrix for Type B: \n {cartan_matrix}")
-    # sorted_roots = sort_simple_roots(cartan_matrix)
-    # print(f"Sorted simple roots: \n {sorted_roots}")
-    # print(np.round(cartan_matrix_from_base(L, H, base11[sorted_roots])))
+    cartan_matrix = cartan_matrix_from_base(L, H, base11)
+    print(f"Cartan matrix for Type B: \n {cartan_matrix}")
+    sorted_roots = sort_simple_roots(cartan_matrix)
+    print(f"Sorted simple roots: \n {sorted_roots}")
+    print(np.round(cartan_matrix_from_base(L, H, base11[sorted_roots])))
     

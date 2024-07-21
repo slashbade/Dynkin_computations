@@ -8,6 +8,10 @@ This is an auxiliary library for my final year project, aiming to create a tenso
 
 Contains basic definition and operation for Lie algebra.
 
+## GeneralLinear
+
+Some definitions and operations for general linear Lie algebra.
+
 ## Reference
 
 - Computing Cartan subalgebras of Lie algebras, De Graaf et al., 1996

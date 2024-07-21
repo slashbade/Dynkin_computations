@@ -1,4 +1,5 @@
 import numpy as np
+from numpy.typing import NDArray
 from basic import *
 
 
@@ -207,6 +208,35 @@ def type_C_basis(rank: int) -> np.ndarray:
             )
             count += 1
     print(basis_num, count)
+    return basis
+
+def type_D_basis(rank: int) -> NDArray[np.float16]:
+    basis_num = 2 * rank * rank - rank
+    matrix_dim = rank * 2
+    basis = np.zeros((basis_num, matrix_dim, matrix_dim))
+    count = 0
+    for i in range(rank):
+        basis[count] = E_unit(matrix_dim, i, i) - E_unit(matrix_dim, rank + i, rank + i)
+        count += 1
+    for i in range(rank):
+        for j in range(rank):
+            if i != j:
+                basis[count] = E_unit(matrix_dim, i, j) - E_unit(
+                    matrix_dim, rank + j, rank + i
+                )
+                count += 1
+    for i in range(rank):
+        for j in range(i + 1, rank):
+            basis[count] = E_unit(matrix_dim, i, rank + j) + E_unit(
+                matrix_dim, j, rank + i
+            )
+            count += 1
+    for i in range(rank):
+        for j in range(i):
+            basis[count] = E_unit(matrix_dim, rank + i, j) + E_unit(
+                matrix_dim, rank + j, i
+            )
+            count += 1
     return basis
 
 
